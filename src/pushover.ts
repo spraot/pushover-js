@@ -4,6 +4,12 @@ import { IResponse } from './request'
 
 type Priority = -2 | -1 | 0 | 1 | 2
 
+export interface INotificationFileData {
+  name: string;
+  filePath?: string;
+  buffer?: ArrayBuffer;
+}
+
 export interface INotificationData {
   user: string;
   token: string;
@@ -18,10 +24,7 @@ export interface INotificationData {
   priority: number;
   expire: number;
   retry: number;
-  file?: {
-    name: string;
-    filePath: string;
-  }
+  file?: INotificationFileData
 }
 
 type Sound = 'pushover' |
@@ -97,6 +100,14 @@ export class Pushover {
     this._notification.file = {
       name,
       filePath
+    }
+    return this
+  }
+
+  public setAttachmentFromBuffer(name: string, buffer: ArrayBuffer): Pushover {
+    this._notification.file = {
+      name,
+      buffer
     }
     return this
   }

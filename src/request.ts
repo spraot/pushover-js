@@ -1,5 +1,5 @@
 import { IncomingMessage } from 'http'
-import { INotificationData } from './pushover'
+import { INotificationData, INotificationFileData } from './pushover'
 import * as fs from 'fs'
 const https = require('https')
 
@@ -25,20 +25,25 @@ const processParam = async (name: string, value: string): Promise<string> => {
   return `\r\nContent-Disposition: form-data; name="${name}"\r\n\r\n${value}\r\n`
 }
 
-const processFile = async (name: string, filePath: string, boundary: string): Promise<Buffer> => {
+const processFile = async (file: INotificationFileData, boundary: string): Promise<Buffer> => {
   let type = 'application/octet-stream'
-  if (/\.(jpg|jpeg)$/i.test(name)) {
+  if (/\.(jpg|jpeg)$/i.test(file.name)) {
     type = 'image/jpeg'
-  } else if (/\.png$/i.test(name)) {
+  } else if (/\.png$/i.test(file.name)) {
     type = 'image/png'
-  } else if (/\.gif$/i.test(name)) {
+  } else if (/\.gif$/i.test(file.name)) {
     type = 'image/gif'
-  } else if (/\.mp3$/i.test(name)) {
+  } else if (/\.mp3$/i.test(file.name)) {
     type = 'audio/mpeg'
-  } else if (/\.mp4$/i.test(name)) {
+  } else if (/\.mp4$/i.test(file.name)) {
     type = 'video/mp4'
   }
-  const data = await fs.promises.readFile(filePath)
+  let data;
+  if (file.buffer) {
+    data = file.buffer;
+  } else {
+    const data = await fs.promises.readFile(file.filePath)
+  }
   return Buffer.concat([
       Buffer.from(`\r\n--${boundary}\r\nContent-Disposition: form-data; name="attachment"; filename="${name}"\r\nContent-type: ${type}\r\n\r\n`),
       data,
