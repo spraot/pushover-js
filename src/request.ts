@@ -38,14 +38,14 @@ const processFile = async (file: INotificationFileData, boundary: string): Promi
   } else if (/\.mp4$/i.test(file.name)) {
     type = 'video/mp4'
   }
-  let data;
-  if (file.buffer) {
-    data = file.buffer;
-  } else {
-    const data = await fs.promises.readFile(file.filePath)
+  let data = Buffer.from('', 'utf-8');
+  if (file.data) {
+    data = file.data;
+  } else if (file.path) {
+    data = await fs.promises.readFile(file.path)
   }
   return Buffer.concat([
-      Buffer.from(`\r\n--${boundary}\r\nContent-Disposition: form-data; name="attachment"; filename="${name}"\r\nContent-type: ${type}\r\n\r\n`),
+      Buffer.from(`\r\n--${boundary}\r\nContent-Disposition: form-data; name="attachment"; filename="${file.name}"\r\nContent-type: ${type}\r\n\r\n`),
       data,
       Buffer.from(`\r\n`)
   ])
@@ -97,7 +97,7 @@ export default {
 
       for (const param in postData) {
         if (param === 'file') {
-          fileData = await processFile(postData[param].name, postData[param].filePath, boundary)
+          fileData = await processFile(postData[param], boundary)
         } else {
           const payload = await processParam(param, postData[param])
           data.push(payload)

@@ -6,8 +6,8 @@ type Priority = -2 | -1 | 0 | 1 | 2
 
 export interface INotificationFileData {
   name: string;
-  filePath?: string;
-  buffer?: ArrayBuffer;
+  path?: string;
+  data?: Buffer;
 }
 
 export interface INotificationData {
@@ -96,18 +96,18 @@ export class Pushover {
     return this
   }
 
-  public setAttachment(name: string, filePath: string): Pushover {
+  public setAttachment(name: string, path: string): Pushover {
     this._notification.file = {
       name,
-      filePath
+      path
     }
     return this
   }
 
-  public setAttachmentFromBuffer(name: string, buffer: ArrayBuffer): Pushover {
+  public setAttachmentFromBuffer(name: string, data: Buffer): Pushover {
     this._notification.file = {
       name,
-      buffer
+      data
     }
     return this
   }
