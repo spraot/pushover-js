@@ -2,7 +2,7 @@
 
 > [Globals](globals.md)
 
-[![CodeFactor](https://www.codefactor.io/repository/github/danitetus/pushover-js/badge)](https://www.codefactor.io/repository/github/danitetus/pushover-js)
+[![CodeFactor](https://www.codefactor.io/repository/github/d4nicoder/pushover-js/badge)](https://www.codefactor.io/repository/github/d4nicoder/pushover-js) ![Build test](https://github.com/d4nicoder/pushover-js/workflows/Build%20test/badge.svg)
 
 # pushover-js v1.3.0
 
@@ -34,7 +34,7 @@ Please read the complete documentation in the [docs](docs/globals.md) folder
 
 ## Usage
 
-### Callbacks
+### Promises
 
 ```javascript
 /*
@@ -60,7 +60,7 @@ pushover
     // If the priority is 2, you have to provide an expire time and a retry time (see the official API for more info)
     .setPriority(2, 60, 30)
     // Set an url to access on tap
-    .setUrl('https://www.github.com/danitetus/pushover-js', 'Pushover-JS github')
+    .setUrl('https://www.github.com/d4nicoder/pushover-js', 'Pushover-JS github')
     // Set custom timestamp (must to be unix timestamp, not javascript time!!!)
     .setTimestamp(Math.floor(new Date(2020, 2, 1).getTime() / 1000))
     // Add a file
@@ -101,7 +101,7 @@ pushover
     // If the priority is 2, you have to provide an expire time and a retry time (see the official API for more info)
     .setPriority(2, 60, 30)
     // Set an url to access on tap
-    .setUrl('https://www.github.com/danitetus/pushover-js', 'Pushover-JS github')
+    .setUrl('https://www.github.com/d4nicoder/pushover-js', 'Pushover-JS github')
     // Set custom timestamp (must to be unix timestamp, not javascript time!!!)
     .setTimestamp(Math.floor(new Date(2020, 2, 1).getTime() / 1000))
     // Add a file
@@ -138,10 +138,10 @@ const sendNotification = async () => {
         // Add a file
         .setAttachment('image.jpg', 'path/to/your/file.jpg')
         // Set an url to access on tap
-        .setUrl('https://www.github.com/danitetus/pushover-js', 'Pushover-JS github')
+        .setUrl('https://www.github.com/d4nicoder/pushover-js', 'Pushover-JS github')
 
     try {
-        const response = await Pushover.send('Submit an issue', 'Click on the link to submit an issue')
+        const response = await pushover.send('Submit an issue', 'Click on the link to submit an issue')
         console.log(response)
     } catch (error) {
         console.error(error)
@@ -150,4 +150,4 @@ const sendNotification = async () => {
 
 ```
 
-For any suggestion or issue, please go to the [issues section](http://www.github.com/danitetus/pushover-js) on the [Github repository](https://www.github.com/danitetus/pushover-js)
+For any suggestion or issue, please go to the [issues section](https://github.com/d4nicoder/pushover-js/issues) on the [Github repository](https://github.com/d4nicoder/pushover-js)
